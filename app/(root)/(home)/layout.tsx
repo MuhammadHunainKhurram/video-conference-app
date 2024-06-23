@@ -1,48 +1,28 @@
+import { Metadata } from 'next';
 import { ReactNode } from 'react';
-import type { Metadata } from 'next';
-import { ClerkProvider } from '@clerk/nextjs';
-import { Inter } from 'next/font/google';
 
-import '@stream-io/video-react-sdk/dist/css/styles.css';
-import 'react-datepicker/dist/react-datepicker.css';
-import '../../globals.css';
-import { Toaster } from '@/components/ui/toaster';
-
-const inter = Inter({ subsets: ['latin'] });
+import Navbar from '@/components/Navbar';
+import Sidebar from '@/components/Sidebar';
 
 export const metadata: Metadata = {
-  title: 'MoCo',
-  description: 'Video Conference App',
-  icons: {
-    icon: '/icons/logo.svg',
-  },
+  title: 'YOOM',
+  description: 'A workspace for your team, powered by Stream Chat and Clerk.',
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: ReactNode }>) {
+const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
   return (
-    <html lang="en">
-      <ClerkProvider
-        appearance={{
-          layout: {
-            socialButtonsVariant: 'iconButton',
-            logoImageUrl: '/icons/cow.png',
-          },
-          variables: {
-            colorText: '#fff',
-            colorPrimary: '#0E78F9',
-            colorBackground: '#1C1F2E',
-            colorInputBackground: '#252A41',
-            colorInputText: '#fff',
-          },
-        }}
-      >
-        <body className={`${inter.className} bg-dark-2`}>
-          <Toaster />
-          {children}
-        </body>
-      </ClerkProvider>
-    </html>
+    <main className="relative">
+      <Navbar />
+
+      <div className="flex">
+        <Sidebar />
+
+        <section className="flex min-h-screen flex-1 flex-col px-6 pb-6 pt-28 max-md:pb-14 sm:px-14">
+          <div className="w-full">{children}</div>
+        </section>
+      </div>
+    </main>
   );
-}
+};
+
+export default RootLayout;
